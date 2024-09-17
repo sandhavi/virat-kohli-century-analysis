@@ -10,6 +10,9 @@ library(car)
 # Read the data
 kohli_data <- read.csv("IS 2105 - Proposal - Group18 - Dataset.csv")
 
+# Replace "T20" with "IPL" in Format column
+kohli_data$Format <- ifelse(kohli_data$Format == "T20", "IPL", kohli_data$Format)
+
 # 1. Univariate Analysis
 
 # Summary statistics for quantitative variables
