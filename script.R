@@ -6,9 +6,13 @@ library(ggplot2)
 library(corrplot)
 library(nortest)
 library(car)
+library(dplyr)
 
 # Read the data
 kohli_data <- read.csv("IS 2105 - Proposal - Group18 - Dataset.csv")
+View(kohli_data)
+
+# summary(kohli_data)
 
 # Replace "T20" with "IPL" in Format column
 kohli_data$Format <- ifelse(kohli_data$Format == "T20", "IPL", kohli_data$Format)
@@ -48,7 +52,8 @@ ggplot(kohli_data, aes(x = Format)) +
 # 2. Bivariate Analysis
 
 # Correlation matrix for quantitative variables
-quant_vars <- kohli_data %>% select(Score, Balls, Strike.Rate, Team.Total, Wickets.lost)
+quant_vars <- kohli_data %>%
+  select(Score, Balls, Strike.Rate, Team.Total, Wickets.lost)
 cor_matrix <- cor(quant_vars)
 corrplot(cor_matrix, method = "circle")
 
