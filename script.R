@@ -14,6 +14,9 @@ View(kohli_data)
 
 # summary(kohli_data)
 
+# Replace "T20" with "IPL" in Format column
+kohli_data$Format <- ifelse(kohli_data$Format == "T20", "IPL", kohli_data$Format)
+
 # 1. Univariate Analysis
 
 # Summary statistics for quantitative variables
