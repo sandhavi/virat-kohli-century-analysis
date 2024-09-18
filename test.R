@@ -10,9 +10,16 @@ library(car)
 data <- read.csv("IS 2105 - Proposal - Group18 - Dataset.csv")
 View(data)
 
-# Replace "T20" with "IPL" in Format column
-data$Format <- ifelse(data$Format == "T20", "IPL", data$Format)
+# Replace "T20i" with "T20" in Format column
+data$Format <- ifelse(data$Format == "T20i", "T20", data$Format)
+# In the Format column, "T20" means "T20 International(T20I)" and "Indian Premie League(IPL)"
 view(data)
+
+# Define the function to generate random colors from the rainbow spectrum
+random_color <- function(n) {
+  colors <- rainbow(100)
+  sample(colors, n)
+}
 
 # 1. Univariate Analysis
 
@@ -20,59 +27,92 @@ view(data)
 # Numerical Variables
 
 # Score
-hist(data$Score, main="Distribution of Scores", xlab="Score", col="blue")
+hist(data$Score, 
+    main = "Distribution of Scores", 
+     xlab = "Score", 
+     col = random_color(1)) 
 
 # Balls
-hist(data$Balls, main="Distribution of Balls", xlab="Balls", col="green")
+hist(data$Balls, 
+     main = "Distribution of Balls", 
+     xlab="Balls", 
+     col = random_color(1))
 
 # Strike Rate
-hist(data$Strike.Rate, main="Distribution of Strike Rates", xlab="Strike Rate", col="red")
+hist(data$Strike.Rate, 
+     main = "Distribution of Strike Rates", 
+     xlab = "Strike Rate", 
+     col = random_color(1))
 
 # Team Total
-hist(data$Team.Total, main="Distribution of Team Totals", xlab="Team Total", col="yellow")
+hist(data$Team.Total, 
+     main = "Distribution of Team Totals", 
+     xlab = "Team Total", 
+     col = random_color(1))
 
 # Summary statistics for qualitative variables
 # Categorical Variables
 
 # Format
-table(data$Format)
-pie(table(data$Format), 
+format_table <- table(data$Format)
+percentages <- round(100 * format_table / sum(format_table), 1)
+labels <- paste(names(format_table), "\n", format_table, " (", percentages, "%)", sep = "")
+
+pie(format_table, 
     main = "Centuries by Format", 
-    labels = names(table(data$Format)))
+    labels = labels,
+    col = random_color(length(format_table)))
 
 # Position
 table(data$Position)
-barplot(table(data$Position), main="Centuries by Position", xlab="Position")
-
-# Against
-table(data$Against)
-barplot(table(data$Against), main="Centuries Against Teams", xlab="Teams")
+barplot(table(data$Position), 
+        main = "Centuries by Position", 
+        xlab = "Position", 
+        col = random_color(1))
 
 # Year
 table(data$Year)
-barplot(table(data$Year), main="Centuries by Year", xlab="Year")
+barplot(table(data$Year), 
+        main = "Centuries by Year", 
+        xlab = "Year",
+        col = random_color(1))
 
 # Not Out
-table(data$Not.Out)
-pie(table(data$Not.Out), 
+not_out_table <- table(data$Not.Out)
+percentages <- round(100 * not_out_table / sum(not_out_table), 1)
+labels <- paste(names(not_out_table), "\n", not_out_table, " (", percentages, "%)", sep = "")
+
+pie(not_out_table, 
     main = "Centuries by Not Out", 
-    labels = names(table(data$Not.Out)))
+    labels = labels,
+    col = random_color(length(not_out_table)))
 
 # Man of the Match (MOTM)
-table(data$MOTM)
-pie(table(data$MOTM), 
+motm_table <- table(data$MOTM)
+percentages <- round(100 * motm_table / sum(motm_table), 1)
+labels <- paste(names(motm_table), "\n", motm_table, " (", percentages, "%)", sep = "")
+
+pie(motm_table, 
     main = "Centuries by Man of the Match", 
-    labels = names(table(data$MOTM)))
+    labels = labels,
+    col = random_color(length(motm_table)))
 
 # Win
 table(data$Win)
-barplot(table(data$Win), main="Centuries by Win", xlab="Win")
+barplot(table(data$Win), 
+        main = "Centuries by Win", 
+        xlab = "Win",
+        col = random_color(1))
 
 # Captain
-table(data$Captain)
-pie(table(data$Captain), 
+captain_table <- table(data$Captain)
+percentages <- round(100 * captain_table / sum(captain_table), 1)
+labels <- paste(names(captain_table), "\n", captain_table, " (", percentages, "%)", sep = "")
+
+pie(captain_table, 
     main = "Centuries by Captain", 
-    labels = names(table(data$Captain)))
+    labels = labels,
+    col = random_color(length(captain_table)))
 
 # 2. Bivariate Analysis
 
@@ -164,3 +204,60 @@ summary(lm_model)
 
 lm_model <- lm(Score ~ Team.Total + Wickets.lost, data = data)
 summary(lm_model)
+
+# Filter the dataset to include only rows where the 'Format' is 'Test'
+test_data <- data %>%
+  filter(Format == "Test")
+view(test_data)
+
+#Univariate
+#inning pie chart
+#position bar graph
+#against bar graph
+#host nation bar graph
+#win pie chart
+
+#Bivariate
+#inning, score boxplot
+#inning, balls boxplot
+#score, team total scatterplot colored by inning
+#year, score boxplot
+#inning, win multiple bar graph
+
+# Filter the dataset to include only rows where the 'Format' is 'ODI'
+odi_data <- data %>%
+  filter(Format == "ODI")
+view(odi_data)
+
+#Univariate 
+#Inning pie chart
+#Win pie chart 
+#MOTM pie chart 
+#Score histogram
+#SR histogram
+
+#Bivariate 
+#Score, SR scatterplot colored by win
+#Inning, win multiple bar graph
+#Not out, win multiple bar graph
+#Win, SR box plot
+#Year, score box plot
+
+# Filter the dataset to include only rows where the 'Format' is 'T20'
+t20_data <- data %>%
+  filter(Format == "T20")
+view(t20_data)
+
+#Univariate 
+#Inning pie chart
+#Win pie chart 
+#MOTM pie chart 
+#Score histogram
+#SR histogram
+
+#Bivariate 
+#Score, SR scatterplot colored by win
+#Inning, win multiple bar graph
+#Not out, win multiple bar graph
+#Win, SR box plot
+#Year, score box plot
