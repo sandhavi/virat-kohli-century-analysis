@@ -77,7 +77,9 @@ barplot(table(data$Year),
         main = "Centuries by Year", 
         xlab = "Year",
         ylab = "Count",
-        col = random_color(1))
+        col = random_color(1),
+        las = 2,
+        cex.names = 0.7)
 
 # Not Out
 not_out_table <- table(data$Not.Out)
