@@ -334,6 +334,7 @@ hist(odi_data$Score,
      main = "Distribution of ODI Scores", 
      xlab = "Score", 
      col = random_color(1)) 
+
 # ODI SR
 hist(odi_data$Strike.Rate, 
      main = "Distribution of ODI Strike Rate", 
