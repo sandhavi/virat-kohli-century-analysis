@@ -25,6 +25,7 @@ View(data)
 data$Format <- ifelse(data$Format == "T20i", "T20", data$Format)
 # In the Format column, "T20" means "T20 International(T20I)" and "Indian Premie League(IPL)"
 view(data)
+head(data)
 
 # Define the function to generate random colors from the rainbow spectrum
 random_color <- function(n) {
@@ -143,14 +144,6 @@ ggplot(data, aes(x = Score, y = Team.Total, color = Format)) +
   geom_point() +
   labs(title = "Score vs Team Total by Format", x = "Score", y = "Team Total")
 
-# Two-way table for two categorical variables
-table(data$Format, data$Win)
-table(data$Format, data$MOTM)
-table(data$Format, data$Captain)
-
-table(data$Position, data$Win)
-table(data$Position, data$MOTM)
-
 # Numerical vs Categorical
 # Boxplot
 
@@ -169,13 +162,23 @@ boxplot(Score ~ Captain,
         col = random_color(2))
 
 # Bar Plot
+table(data$Format, data$Not.Out)
 ggplot(data, aes(x = Not.Out, fill = Format)) +
   geom_bar(position = "fill") +
   labs(title = "Proportion of Not Outs by Format", x = "Not Out", y = "Proportion")
 
+table(data$Format, data$MOTM)
 ggplot(data, aes(x = MOTM, fill = Format)) +
   geom_bar(position = "fill") +
   labs(title = "Proportion of Man of the Match by Format", x = "MOTM", y = "Proportion")
+
+# Two-way table for two categorical variables
+table(data$Format, data$Win)
+table(data$Format, data$MOTM)
+table(data$Format, data$Captain)
+
+table(data$Position, data$Win)
+table(data$Position, data$MOTM)
 
 # 4. Time Series Analysis
 
@@ -188,26 +191,87 @@ ggplot(yearly_avg, aes(x = Year, y = Score)) +
   labs(title = "Average Score Trend Over Years", x = "Year", y = "Average Score")
 
 # 5. Outlier Detection
-# Boxplot
-boxplot(data$Score, main="Boxplot of Score", col="blue")
-boxplot(data$Balls, main="Boxplot of Balls", col="green")
-boxplot(data$Strike.Rate, main="Boxplot of Strike Rate", col="red")
-boxplot(data$Team.Total, main="Boxplot of Team Total", col="yellow")
-boxplot(data$Wickets.lost, main="Boxplot of Wickets Lost", col="orange")
+
+# Score
+summary(data$Score)
+boxplot(data$Score, main = "Boxplot of Score", col = random_color(1))
+
+score_Q1 <- quantile(data$Score, 0.25)
+score_Q3 <- quantile(data$Score, 0.75)
+score_IQR <- score_Q3 - score_Q1
+score_lower_bound <- score_Q1 - 1.5 * score_IQR
+score_upper_bound <- score_Q3 + 1.5 * score_IQR
+score_outliers <- data$Score[data$Score < score_lower_bound | data$Score > score_upper_bound]
+score_outliers
+
+# Balls
+summary(data$Balls)
+boxplot(data$Balls, main = "Boxplot of Balls", col = random_color(1))
+
+balls_Q1 <- quantile(data$Balls, 0.25)
+balls_Q3 <- quantile(data$Balls, 0.75)
+balls_IQR <- balls_Q3 - balls_Q1
+balls_lower_bound <- balls_Q1 - 1.5 * balls_IQR
+balls_upper_bound <- balls_Q3 + 1.5 * balls_IQR
+balls_outliers <- data$Balls[data$Balls < balls_lower_bound | data$Balls > balls_upper_bound]
+balls_outliers
+
+# Strike Rate
+summary(data$Strike.Rate)
+boxplot(data$Strike.Rate, main = "Boxplot of Strike Rate", col = random_color(1))
+
+strike_rate_Q1 <- quantile(data$Strike.Rate, 0.25)
+strike_rate_Q3 <- quantile(data$Strike.Rate, 0.75)
+strike_rate_IQR <- strike_rate_Q3 - strike_rate_Q1
+strike_rate_lower_bound <- strike_rate_Q1 - 1.5 * strike_rate_IQR
+strike_rate_upper_bound <- strike_rate_Q3 + 1.5 * strike_rate_IQR
+strike_rate_outliers <- data$Strike.Rate[data$Strike.Rate < strike_rate_lower_bound | data$Strike.Rate > strike_rate_upper_bound]
+strike_rate_outliers
+
+# Team total
+summary(data$Team.Total)
+boxplot(data$Team.Total, main = "Boxplot of Team Total", col = random_color(1))
+
+team_total_Q1 <- quantile(data$Team.Total, 0.25)
+team_total_Q3 <- quantile(data$Team.Total, 0.75)
+team_total_IQR <- team_total_Q3 - team_total_Q1
+team_total_lower_bound <- team_total_Q1 - 1.5 * team_total_IQR
+team_total_upper_bound <- team_total_Q3 + 1.5 * team_total_IQR
+team_total_outliers <- data$Team.Total[data$Team.Total < team_total_lower_bound | data$Team.Total > team_total_upper_bound]
+team_total_outliers
 
 # 6. Regression Analysis
-lm_model <- lm(Score ~ Balls + Strike.Rate, data = data)
-summary(lm_model)
 
-lm_model <- lm(Score ~ Team.Total + Wickets.lost, data = data)
-summary(lm_model)
+# Predicting Score based on Balls Faced
+lm_model_balls <- lm(Score ~ Balls, data = data)
+summary(lm_model_balls)
+
+new_ball <- data.frame(Balls = c(50, 150, 250, 350))
+predicted_scores <- predict(lm_model_balls, new_ball)
+predicted_scores
+
+# Predicting Strike Rate based on Score
+lm_model_strike_rate <- lm(Strike.Rate ~ Score, data = data)
+summary(lm_model_strike_rate)
+
+new_score <- data.frame(Score = c(50, 100, 150, 200))
+predicted_strike_rates <- predict(lm_model_strike_rate, new_score)
+predicted_strike_rates
+
+# Predicting Team Total based on Score
+lm_model_team_total <- lm(Team.Total ~ Score, data = data)
+summary(lm_model_team_total)
+
+new_score <- data.frame(Score = c(50, 100, 150, 200))
+predicted_team_totals <- predict(lm_model_team_total, new_score)
+predicted_team_totals
 
 # 7. Format-Specific Analysis
 
 # 7.1 Test Match Analysis
 # Filter the dataset to include only rows where the 'Format' is 'Test'
 test_data <- data %>%
-  filter(Format == "Test")
+  filter(data$Format == "Test")
 view(test_data)
 
 # Univariate Analysis
@@ -297,10 +361,22 @@ ggplot(test_data, aes(x = Inning, fill = Win)) +
   geom_bar(position = "fill") +
   labs(title = "Proportion of Inning by Test Win", x = "Inning", y = "Proportion")
 
+# Proportion of Host Nation by Test Win
+table(test_data$Host.Nation, test_data$Win)
+ggplot(test_data, aes(x = Host.Nation, fill = Win)) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Host Nation by Test Win", x = "Country", y = "Proportion")
+
+# Proportion of Test Wins by Opponent Country
+table(test_data$Against, test_data$Win)
+ggplot(test_data, aes(x = Against, fill = Win)) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Test Wins by Opponent Country", x = "Country", y = "Proportion")
+
 # 7.2 ODI Analysis
 # Filter the dataset to include only rows where the 'Format' is 'ODI'
 odi_data <- data %>%
-  filter(Format == "ODI")
+  filter(data$Format == "ODI")
 view(odi_data)
 
 # Univariate Analysis
@@ -383,7 +459,7 @@ boxplot(Score ~ Position,
 # 7.3 T20 Analysis
 # Filter the dataset to include only rows where the 'Format' is 'T20'
 t20_data <- data %>%
-  filter(Format == "T20")
+  filter(data$Format == "T20")
 view(t20_data)
 
 # Univariate Analysis
@@ -525,7 +601,7 @@ print(z_test_score)
 
 # Z-test: Is the average strike rate in ODIs significantly different from 95?
 odi_strike_rates <- data$Strike.Rate[data$Format == "ODI"]
-z_test_odi_sr <- z.test(odi_strike_rates, mu = 95, sigma.x = sd(odi_strike_rates))
+z_test_odi_sr <- z.test(odi_data$Strike.Rate, mu = 95, sigma.x = sd(odi_strike_rates))
 print("Z-test: Average ODI strike rate ≠ 95")
 print(z_test_odi_sr)
 
