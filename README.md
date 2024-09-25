@@ -83,19 +83,19 @@ The R script is organized into the following main sections:
 
 1. Data Preparation
 2. Univariate Analysis
-  - Numerical Variables
-  - Categorical Variables
+   - Numerical Variables
+   - Categorical Variables
 3. Bivariate Analysis
 4. Time Series Analysis
 5. Outlier Detection
 6. Regression Analysis
 7. Format-Specific Analysis
-  - Test Match Analysis
-  - ODI Analysis
-  - T20 Analysis
+   - Test Match Analysis
+   - ODI Analysis
+   - T20 Analysis
 8. Hypothesis Testing
-  - T-tests
-  - Z-tests
-  - Other Hypothesis Tests
+   - T-tests
+   - Z-tests
+   - Other Hypothesis Tests
 
 Each section contains various visualizations and statistical tests to provide comprehensive insights into Kohli's centuries.
