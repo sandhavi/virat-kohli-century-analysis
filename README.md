@@ -1,27 +1,31 @@
 # Virat Kohli Century Analysis
 
-This project analyzes Virat Kohli's century data across various match formats, exploring key performance metrics through statistical analysis and data visualizations. The analysis focuses on univariate and bivariate statistics, regression analysis, and hypothesis testing.
-
-### Install Required Packages
-```
-install.packages(c("tidyverse", "ggplot2", "corrplot", "nortest", "car"))
-```
+This project analyzes Virat Kohli's centuries across different cricket formats using R. It includes various statistical analyses and visualizations to gain insights into Kohli's performance.
 
 ## Table of Contents
-- [Introduction](#introduction)
-- [Data](#data)
-- [Analysis](#analysis)
-    - [1. Univariate Analysis](#1-univariate-analysis)
-    - [2. Bivariate Analysis](#2-bivariate-analysis)
-    - [3. Regression and Hypothesis Testing](#3-regression-and-hypothesis-testing)
-- [Visualizations](#visualizations)
-- [Conclusion](#conclusion)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
 
-## Introduction
+1. [Project Overview](#project-overview)
+2. [Data](#data)
+3. [Prerequisites](#prerequisites)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Project Structure](#project-structure)
+7. [Analysis Sections](#analysis-sections)
 
-This project focuses on analyzing the centuries scored by Indian cricketer Virat Kohli across different match formats. We explore key performance metrics like score, strike rate, team performance, and the influence of factors like match format, innings, and captaincy on his performances. The goal is to uncover insights through statistical analysis and data visualizations.
+
+## Project Overview
+
+This R script performs a comprehensive analysis of Virat Kohli's centuries in cricket. It covers various aspects such as:
+
+- Data preparation and cleaning
+- Univariate and bivariate analyses
+- Time series analysis
+- Outlier detection
+- Regression analysis
+- Format-specific analysis (Test, ODI, T20)
+- Hypothesis testing
+
+The analysis aims to provide insights into Kohli's performance across different formats, conditions, and years.
 
 ## Data
 
@@ -41,46 +45,57 @@ The dataset used in this analysis contains the following columns:
 - **Win**: Whether the team won the match (Yes/No).
 - **Captain**: Whether Kohli was the captain during the match (Yes/No).
 
-## Analysis
+## Prerequisites
 
-### 1. Univariate Analysis
-- Summary statistics (mean, standard deviation, min, max) are calculated for quantitative variables like **Score**, **Balls**, **Strike Rate**, **Team Total**, and **Wickets Lost**.
-- Frequency distributions for categorical variables such as **Format**, **Inning**, **Position**, **Year**, etc.
+To run this analysis, you need:
 
-### 2. Bivariate Analysis
-- Correlation matrix for quantitative variables like **Score**, **Balls**, **Strike Rate**, **Team Total**, and **Wickets Lost**.
-- Scatter plots to explore relationships between **Score** and **Strike Rate**, and **Score** and **Team Total**.
-- Two-way tables for categorical variables, such as **Format** vs **Win**.
+- R (version 3.6.0 or higher recommended)
+- RStudio (optional, but recommended)
 
-### 3. Regression and Hypothesis Testing
-- **Linear Regression**: Model to predict Kohli's **Score** based on **Balls** faced and **Strike Rate**.
-- **T-test**: Comparing **Score** between ODI and Test formats to assess if there's a significant difference.
-- **ANOVA**: Analysis of variance on **Score** across different batting positions.
-- **Chi-square Test**: Checking for association between **Man of the Match (MOTM)** and **Win**.
-- **Paired T-test**: Comparing **Score** against half of the **Team Total**.
+## Installation
 
-## Visualizations
-The project includes several visualizations to better understand Kohli's performances:
-- Histograms of **Score** and **Strike Rate** distributions.
-- Bar charts showing the number of centuries by match format.
-- Box plots comparing **Score** by match format and win/loss results.
-- Scatter plots visualizing the relationship between **Score** and **Strike Rate**, and **Score** vs **Team Total**.
-- Density plots showing the distribution of scores when Kohli is a captain versus when he's not.
-- A time series plot for the trend of average scores over the years.
+1. Clone this repository or download the R script.
+2. Install the required R packages by running the following commands in R:
 
-## Conclusion
-
-This analysis provides valuable insights into Virat Kohli's century performances. Key takeaways include the impact of match format, strike rate, and team performance on his centuries, as well as differences in performance based on his role as a captain and match outcome.
-
-## Dependencies
-
-This project requires the following R packages:
-- `tidyverse`: For data manipulation and visualization.
-- `ggplot2`: For creating plots and charts.
-- `corrplot`: For visualizing correlation matrices.
-- `nortest`: For normality tests.
-- `car`: For ANOVA and hypothesis testing.
+```R
+install.packages(c("tidyverse", "corrplot", "nortest", "car", "BSDA"))
+```
 
 ## Usage
 
-To run the analysis, load the dataset and execute the analysis steps. The code includes visualizations, regression models, and hypothesis tests, which can be adapted to similar datasets. Simply follow the structure in the script to reproduce the analysis.
+1. Open the R script in RStudio or your preferred R environment.
+2. Set the working directory to the folder containing the script and data file.
+3. Run the script section by section or as a whole.
+
+Note: Make sure the data file "IS 2105 - Proposal - Group18 - Dataset.csv" is in the same directory as the script.
+
+## Project Structure
+
+The main components of this project are:
+
+- `virat_kohli_analysis.R`: The main R script containing all the analysis code.
+- `IS 2105 - Proposal - Group18 - Dataset.csv`: The dataset containing Virat Kohli's century information.
+- `README.md`: This file, providing an overview and instructions for the project.
+
+## Analysis Sections
+
+The R script is organized into the following main sections:
+
+1. Data Preparation
+2. Univariate Analysis
+   - Numerical Variables
+   - Categorical Variables
+3. Bivariate Analysis
+4. Time Series Analysis
+5. Outlier Detection
+6. Regression Analysis
+7. Format-Specific Analysis
+   - Test Match Analysis
+   - ODI Analysis
+   - T20 Analysis
+8. Hypothesis Testing
+   - T-tests
+   - Z-tests
+   - Other Hypothesis Tests
+
+Each section contains various visualizations and statistical tests to provide comprehensive insights into Kohli's centuries.
